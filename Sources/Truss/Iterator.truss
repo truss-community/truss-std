@@ -58,7 +58,7 @@ public protocol Iterator<Item> {
     func map<T>(f: (Item) -> T) -> _MapIterator {
         _MapIterator(iterator: self, f: f)
     }
-    func filter(f: (Item) -> Item) -> _FilterIterator {
+    func filter(f: (Item) -> Bool) -> _FilterIterator {
         _FilterIterator(iterator: self, f: f)
     }
     func zip<T>(_ other: Iterable<T>) -> _ZipIterator {
