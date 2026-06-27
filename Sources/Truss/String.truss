@@ -20,7 +20,7 @@ public final class String {
     private init?(_ raw: UInt8*, _ size: UInt64) {
         var _raw = malloc(size + 1) as UInt8*
         memcpy(dest: _raw, src: raw, count: size)
-        _raw[size] = '\0'
+        _raw[size] = 0
         self.raw = _raw
         self._size = size + 1
         self._length = do {
@@ -51,5 +51,12 @@ public final class String {
     }
     deinit {
         free(raw)
+    }
+    public func + (_ rhs: Self) -> Self {
+        let newSize = self._size + rhs._size - 1
+        let newRaw = malloc(newSize) as UInt8*
+        memcpy(dest: newRaw, src: raw, count: self._size - 1)
+        memcpy(dest: newRaw + self._size - 1, src: rhs.raw, count: rhs._size)
+        Self(newRaw, newSize)!
     }
 }
